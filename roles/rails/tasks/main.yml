@@ -51,11 +51,10 @@
     group: wheel
 
 - name: Create database structure
-  shell: "source /etc/profile.d/rvm.sh && /usr/share/rvm/gems/ruby-{{ ruby_version }}/bin/rake db:migrate RAILS_ENV={{ env }}"
+  shell: "source /etc/profile.d/rvm.sh && bin/rake db:migrate RAILS_ENV=production"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
-  environment:
 
 - name: Load configuration seeds
   shell: "source /etc/profile.d/rvm.sh && bin/rake db:seed RAILS_ENV={{ env }}"
