@@ -20,7 +20,7 @@
     mode: 0755
 
 - name: Install gems (this may take a few minutes)
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bundle install"
+  shell: "source /etc/profile.d/rvm.sh && bundle install"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
@@ -50,20 +50,21 @@
     owner: "{{ deploy_user }}"
     group: wheel
 
-- name: Create Database
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && /home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/bin/rake db:migrate RAILS_ENV={{ env }}"
+- name: Create database structure
+  shell: "source /etc/profile.d/rvm.sh && /usr/share/rvm/gems/ruby-{{ ruby_version }}/bin/rake db:migrate RAILS_ENV={{ env }}"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
+  environment:
 
 - name: Load configuration seeds
-  shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
+  shell: "source /etc/profile.d/rvm.sh && bin/rake db:seed RAILS_ENV={{ env }}"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
 
 - name: Precompile assets
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
+  shell: "source /etc/profile.d/rvm.sh && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash
