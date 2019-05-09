@@ -1,3 +1,10 @@
 ---
-- include_role:
-    name: galaxy/geerlingguy.memcached
+- name: Install memcached
+  apt:
+    name: memcached
+
+- name: Start memcached
+  service: 
+    name: memcached 
+    state: started 
+    enabled: yes
