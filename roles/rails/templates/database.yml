@@ -9,3 +9,7 @@ default: &default
 production:
   <<: *default
   database: consul_production
+
+test:
+  <<: *default
+  database: consul_production
