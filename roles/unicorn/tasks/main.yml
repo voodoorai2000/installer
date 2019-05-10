@@ -37,4 +37,10 @@
   shell: "/home/{{ deploy_user}}/.rvm/gems/ruby-2.3.2/wrappers/unicorn -c config/unicorn.rb -E {{ env }} -D"
   args:
     chdir: /home/{{ deploy_user }}/consul
-    
+  ignore_errors: true
+
+- name: Print unicorn errors
+  shell: "cat /home/deploy/consul/log/unicorn.stderr.log"
+  args:
+    chdir: /home/{{ deploy_user }}/consul
+    executable: /bin/bash
