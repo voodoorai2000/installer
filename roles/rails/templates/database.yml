@@ -6,6 +6,6 @@ default: &default
   username: {{ deploy_user}}
   password: {{ deploy_user }}
 
-{{ env }}:
+{{ context }}:
   <<: *default
-  database: consul_{{ env }}
+  database: consul_{{ context }}
