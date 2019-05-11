@@ -9,6 +9,8 @@ locale: en_US.UTF-8
 
 # General settings
 env: production
+version: 1.0.0-beta
+
 root_access: true
 deploy_user: deploy
 deploy_dir: "/home/{{ deploy_user }}/"
