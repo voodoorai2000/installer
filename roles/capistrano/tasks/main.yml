@@ -5,7 +5,7 @@
   register: local_ssh_key  
 
 - name: Generate local public ssh key
-  command: ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+  command: ssh-keygen -t rsa -N "" -f /home/{{ deploy_user }}/.ssh/id_rsa
   when: local_ssh_key.stat.exists == False
 
 - name: Get local travis ssh key
