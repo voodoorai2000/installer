@@ -4,3 +4,14 @@
     dest: "/home/{{ deploy_user}}/consul/config/initializers/delayed_job_config.rb"
     owner: "{{ deploy_user }}"
     group: wheel
+# ToDO
+# - name: Add DelayedJobs start script (after reboot)
+# add to crontab
+
+#ToDO
+#Remember to update for capistrano
+- name: Start DelayedJobs queue
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV=production bin/delayed_job start"
+  args:
+    executable: /bin/bash
+    chdir: /home/{{ deploy_user }}/{{ app_name }}
