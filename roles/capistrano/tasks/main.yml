@@ -24,9 +24,11 @@
 - name: Cat authorized keys
   slurp:
     src: "/home/{{ deploy_user }}/.ssh/authorized_keys"
-  register: local_ssh_key
+  register: deploy_authorized_keys
   ignore_errors: yes
-  
+
+- debug: msg="{{ deploy_authorized_keys['content'] | b64decode }}"
+
 - name: Restart ssh
   become: true
   service: name=sshd state=restarted
