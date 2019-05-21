@@ -23,7 +23,7 @@
 
 - name: Cat authorized keys
   slurp:
-    src: "/home/{{ deploy_user }}/.ssh/authorized_keys"
+    src: "/home/deploy/.ssh/authorized_keys"
   register: deploy_authorized_keys
   ignore_errors: yes
 
