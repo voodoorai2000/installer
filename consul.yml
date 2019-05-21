@@ -1,5 +1,33 @@
 ---
-- import_playbook: user.yml
-- import_playbook: system.yml
-- import_playbook: db.yml
-- import_playbook: app.yml
+- name: Create deploy user
+  hosts: all
+  become: true
+  roles:
+    - { role: user, when: root_access == true }
+
+- name: Set up CONSUL
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - system
+    - postgresql
+    - ruby
+    - rails
+    - email
+    - queue
+    - ssl
+    - nginx
+    - unicorn
+    - memcached
+    - timezone
+    # - capistrano
+
+- name: Check system
+  hosts: all
+  become: true
+  vars:
+    ansible_user: "{{ deploy_user }}"
+  roles:
+    - specs
