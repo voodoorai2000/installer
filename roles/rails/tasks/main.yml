@@ -9,9 +9,11 @@
     repo: https://github.com/consul/consul.git
     dest: /home/{{ deploy_user }}/consul
     clone: yes
+    version: installer_capistrano
   when: consul_repo.stat.exists == False
 
 - name: Deploy user permissions
+  become: true
   file:
     path: /home/{{ deploy_user }}/consul
     owner: "{{ deploy_user }}"
@@ -58,12 +60,6 @@
 
 - name: Load configuration seeds
   shell: "source /home/{{ deploy_user}}/.rvm/scripts/rvm && bin/rake db:seed RAILS_ENV={{ env }}"
-  args:
-    chdir: /home/{{ deploy_user }}/consul
-    executable: /bin/bash
-
-- name: Precompile assets
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && bin/rake assets:precompile RAILS_ENV={{ env }}"
   args:
     chdir: /home/{{ deploy_user }}/consul
     executable: /bin/bash

@@ -3,6 +3,9 @@ app_name: consul
 server_hostname: "{{ ansible_default_ipv4.address }}"
 secret_key_base: "change_me"
 
+#Capistrano
+repo_url: https://github.com/consul/consul.git
+
 # Server Timzone + Locale
 timezone: Europe/Madrid
 locale: en_US.UTF-8
@@ -12,6 +15,7 @@ env: production
 root_access: true
 deploy_user: deploy
 deploy_dir: "/home/{{ deploy_user }}/"
+deploy_path: "/home/{{ deploy_user }}/{{ app_name }}"
 deploy_password: test
 deploy_app_name: test
 deploy_server_hostname: 127.0.0.1

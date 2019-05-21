@@ -2,10 +2,15 @@
 - include_role:
     name: galaxy/geerlingguy.nginx
 
-- name: Change default template
+- name: Update Nginx template for capistrano
+  become: true
+  become_method: sudo
   template:
-    src: "{{ playbook_dir }}/roles/nginx/templates/consul_vhost.conf"
+    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.conf"
     dest: /etc/nginx/sites-enabled/default
     owner: "{{ deploy_user }}"
     group: wheel
-  notify: restart nginx
+
+- name: Restart nginx
+  become: true
+  service: name=nginx state=restarted

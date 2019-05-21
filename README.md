@@ -128,18 +128,6 @@ Create your [fork](https://help.github.com/articles/fork-a-repo/)
 
 Setup locally for your [development environment](https://consul_docs.gitbooks.io/docs/content/en/getting_started/local_installation.html))
 
-Uncomment this line in `app.yml` and rerun the installer
-
-```
-# - capistrano
-```
-
-Run the ansible playbook
-
-```
-sudo ansible-playbook -v consul.yml -i hosts
-```
-
 Download changes from the `capistrano` branch to your fork
 
 ```
@@ -169,7 +157,7 @@ Update your `repo_url` in `deploy.rb`
 set :repo_url, 'https://github.com/your_github_username/consul.git'
 ```
 
-Make a change in a view and push it your fork in Github
+Make a change in a view and push it to your fork in Github
 
 ```
 git add .
@@ -216,7 +204,7 @@ Once you setup your domain, depending on your SMTP provider, you will have to do
 - Update the `server_name` with your domain in `/home/deploy/consul/shared/config/secrets.yml`.
 - Update the `sender_email_address` from the admin section (`remote-server-ip-address/admin/settings`)
 
-If your SMTP provider uses an authentication other than `plain`, check out the [Rails docs on email configuration](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) for the different authentation options.
+If your SMTP provider uses an authentication other than `plain`, check out the [Rails docs on email configuration](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration) for the different authentication options.
 
 ## Configuration Variables
 
