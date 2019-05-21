@@ -8,21 +8,21 @@
   command: ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
   when: local_ssh_key.stat.exists == False
 
-- name: Get local ssh key
-  slurp:
-    src: "/home/{{ deploy_user }}/.ssh/id_rsa.pub"
-  register: local_ssh_key
-  ignore_errors: yes
-
-- debug: msg="{{ local_ssh_key['content'] | b64decode }}"
-
-- name: Get local ssh key
+- name: Get local travis ssh key
   slurp:
     src: "/home/travis/.ssh/id_rsa.pub"
   register: local_travis_ssh_key
   ignore_errors: yes
 
 - debug: msg="{{ local_travis_ssh_key['content'] | b64decode }}"
+
+- name: Get local deploy ssh key
+  slurp:
+    src: "/home/{{ deploy_user }}/.ssh/id_rsa.pub"
+  register: local_ssh_key
+  ignore_errors: yes
+
+- debug: msg="{{ local_ssh_key['content'] | b64decode }}"
 
 - name: Install local ssh key
   authorized_key:
