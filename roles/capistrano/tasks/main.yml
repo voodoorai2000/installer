@@ -10,7 +10,7 @@
 
 - name: Get local ssh key
   slurp:
-    src: "/home/travis/.ssh/id_rsa.pub"
+    src: "/home/{{ deploy_user }}/.ssh/id_rsa.pub"
   register: local_ssh_key
 
 - debug: msg="{{ local_ssh_key['content'] | b64decode }}"
