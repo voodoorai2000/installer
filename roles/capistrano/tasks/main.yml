@@ -8,6 +8,8 @@
   become: true
   command: ssh-keygen -t rsa -N "" -f /home/{{ deploy_user }}/.ssh/id_rsa
   when: local_ssh_key.stat.exists == False
+  args:
+    executable: /bin/bash
 
 - name: Get local deploy ssh key
   slurp:
