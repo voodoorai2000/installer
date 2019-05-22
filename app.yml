@@ -1,7 +1,6 @@
 ---
 - name: Set up CONSUL
   hosts: all
-  become: true
   vars:
     # https://github.com/ansible/proposals/issues/89
     ansible_user: "{{ deploy_user }}"
