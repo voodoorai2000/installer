@@ -5,7 +5,7 @@
   register: local_ssh_key  
 
 - name: Generate local public ssh key
-  become_user: {{ deploy_user }}
+  become_user: "{{ deploy_user }}"
   command: ssh-keygen -t rsa -N "" -f /home/{{ deploy_user }}/.ssh/id_rsa USER={{ deploy_user }}
   when: local_ssh_key.stat.exists == False
   args:
