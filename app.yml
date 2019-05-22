@@ -8,6 +8,7 @@
   roles:
     - ruby
     - rails
+    - capistrano
     - ssl
     - email
     - queue
@@ -16,7 +17,6 @@
       become: true
     - memcached
     - timezone
-    # - capistrano
 
 - name: Check system
   hosts: all

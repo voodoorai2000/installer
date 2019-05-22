@@ -1,7 +1,48 @@
 ---
-- include_role:
-    name: galaxy/geerlingguy.nginx
+- name: Check for local ssh key
+  stat:
+    path: "/home/{{ deploy_user }}/.ssh/id_rsa.pub"
+  register: local_ssh_key  
 
+- name: Generate local public ssh key
+  become_user: "{{ deploy_user }}"
+  command: ssh-keygen -t rsa -N "" -f /home/{{ deploy_user }}/.ssh/id_rsa USER={{ deploy_user }}
+  when: local_ssh_key.stat.exists == False
+  args:
+    executable: /bin/bash
+
+- name: Get local deploy ssh key
+  slurp:
+    src: "/home/{{ deploy_user }}/.ssh/id_rsa.pub"
+  register: local_ssh_key
+  ignore_errors: yes
+
+- debug: msg="{{ local_ssh_key['content'] | b64decode }}"
+
+- name: Install local ssh key
+  authorized_key:
+    user: "{{ deploy_user }}"
+    key: "{{ local_ssh_key['content'] | b64decode }}"
+
+- name: Cat authorized keys
+  slurp:
+    src: "/home/deploy/.ssh/authorized_keys"
+  register: deploy_authorized_keys
+  ignore_errors: yes
+
+- debug: msg="{{ deploy_authorized_keys['content'] | b64decode }}"
+
+- name: Restart ssh
+  become: true
+  service: name=sshd state=restarted
+
+- name: Copy deploy-secrets.yml to deploy directory
+  template:
+    src: "{{ playbook_dir }}/roles/capistrano/templates/deploy-secrets.yml"
+    dest: "/home/{{ deploy_user }}/{{ app_name }}/config/deploy-secrets.yml"
+    owner: "{{ deploy_user }}"
+    group: wheel
+    
 - name: Creates shared folder
   file:
     path: /home/{{ deploy_user }}/consul/shared
@@ -46,7 +87,7 @@
 - name: Copy delayed jobs configuration to shared folder
   command: cp /home/{{ deploy_user }}/consul/config/initializers/delayed_job_config.rb /home/{{ deploy_user }}/consul/shared/config/initializers/delayed_job_config.rb
 
-- name: Copy unicorn.rb template for capistrano to shared folder
+- name: Copy unicorn.rb template to shared folder
   template:
     src: "{{ playbook_dir }}/roles/capistrano/templates/unicorn.rb"
     dest: "/home/{{ deploy_user }}/consul/shared/config/unicorn.rb"
@@ -65,16 +106,13 @@
     - "sockets"
     - "log"
 
-- name: Update Nginx template for capistrano
-  become: true
-  become_method: sudo
-  template:
-    src: "{{ playbook_dir }}/roles/capistrano/templates/consul_vhost.conf"
-    dest: /etc/nginx/sites-enabled/default
-    owner: "{{ deploy_user }}"
-    group: wheel
-  notify: restart nginx
+#ToDo use environment variable
+- name: Deploy CONSUL to localhost (this may take a few minutes)
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && /home/{{ deploy_user }}/.rvm/gems/ruby-{{ ruby_version }}/bin/cap production deploy"
+  args:
+    chdir: /home/{{ deploy_user }}/{{ app_name }}
+    executable: /bin/bash
 
-- name: Restart nginx
-  become: true
-  service: name=nginx state=restarted
+#ToDo
+# Remove duplicate files in home/deploy/consul/
+# Better yet... clone consul to /tmp and them delete /tmp
