@@ -13,6 +13,7 @@
   when: consul_repo.stat.exists == False
 
 - name: Deploy user permissions
+  become: "{{ 'yes' if lookup('env', 'CI') else 'no' }}"
   file:
     path: /home/{{ deploy_user }}/consul
     owner: "{{ deploy_user }}"
