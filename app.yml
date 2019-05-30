@@ -1,7 +1,6 @@
 ---
 - name: Set up CONSUL
   hosts: all
-  become: true
   vars:
     # https://github.com/ansible/proposals/issues/89
     ansible_user: "{{ deploy_user }}"
@@ -13,14 +12,12 @@
     - queue
     - unicorn
     - role: nginx
-      become: true
     - memcached
     - timezone
     # - capistrano
 
 - name: Check system
   hosts: all
-  become: true
   vars:
     ansible_user: "{{ deploy_user }}"
   roles:
