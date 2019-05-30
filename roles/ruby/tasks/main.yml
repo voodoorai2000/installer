@@ -2,6 +2,14 @@
 - become: true
   become_user: deploy
   block:
+    - name: Creates tmp directory
+      file:
+        path: /home/{{ deploy_user }}/.ansible/tmp
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: wheel
+        mode: 0755
+    
     - name: Install RVM repository
       apt_repository:
         repo: ppa:rael-gc/rvm
