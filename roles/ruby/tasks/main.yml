@@ -1,22 +1,6 @@
 ---
 - become: true
-  block:
-    - name: Creates system tmp directory
-      file:
-        path: /tmp
-        state: directory
-        owner: "{{ deploy_user }}"
-        group: wheel
-        mode: 0777
-
-    - name: Creates ansible tmp directory
-      file:
-        path: /home/{{ deploy_user }}/.ansible/tmp
-        state: directory
-        owner: "{{ deploy_user }}"
-        group: wheel
-        mode: 0777
-    
+  block:    
     - name: Install RVM repository
       apt_repository:
         repo: ppa:rael-gc/rvm
