@@ -17,3 +17,5 @@ env:
 addons:
   hosts:
     - travis.dev
+env:
+  - USER=deploy
