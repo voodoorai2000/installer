@@ -22,6 +22,7 @@
         shell: /bin/bash
       
     - name: Install Ruby version (this may take a few minutes)
+      become: false
       shell: source /etc/profile.d/rvm.sh && rvm install {{ ruby_version }}
       args:
         chdir: /home/{{ deploy_user }}
