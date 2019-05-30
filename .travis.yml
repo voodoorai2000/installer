@@ -19,3 +19,4 @@ addons:
     - travis.dev
 env:
   - USER=deploy
+  - HOME=/home/deploy
