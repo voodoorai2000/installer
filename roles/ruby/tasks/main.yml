@@ -5,10 +5,12 @@
     repo: ppa:rael-gc/rvm
 
 - name: Update system
+  become: true
   apt:
     update_cache: true
 
 - name: Install RVM
+  become: true
   apt:
     name: rvm
 
