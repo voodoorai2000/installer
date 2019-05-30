@@ -15,6 +15,7 @@
     name: rvm
 
 - name: Add deploy user to RVM group
+  become: true
   user:
     name: "{{ deploy_user }}"
     group: rvm
