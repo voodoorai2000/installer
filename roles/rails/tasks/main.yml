@@ -22,6 +22,7 @@
     mode: 0755
 
 - name: Install gems (this may take a few minutes)
+  become: true
   shell: "source /etc/profile.d/rvm.sh && bundle install"
   args:
     chdir: /home/{{ deploy_user }}/consul
