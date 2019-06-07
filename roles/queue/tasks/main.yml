@@ -5,7 +5,7 @@
 #ToDO
 #Remember to update for capistrano
 - name: Start DelayedJobs queue
-  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV=production bin/delayed_job start"
+  shell: "source /home/{{ deploy_user }}/.rvm/scripts/rvm && RAILS_ENV=production bin/delayed_job restart"
   args:
     executable: /bin/bash
     chdir: /home/{{ deploy_user }}/{{ app_name }}
