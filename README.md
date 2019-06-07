@@ -160,6 +160,8 @@ You should now see that change at your remote server's ip address
 ### Screencast
 [How to setup email deliveries](https://public.3.basecamp.com/p/yAGcyJeSVHaW43M7aoHCxu6L)
 
+Screencast update: The Installer now configures a queue to send emails asynchronously. Thus you will not see a 500 error when there is a misconfiguration, as the email is sent asyncronously and the error will be raised in the queue. To see email error logs open the rails console (`cd /home/deploy/consul/ && bin/rails c production`) and search for the last error in the queue `Delayed::Job.last.last_error`)
+
 Update the following file in your production server:
 `/home/deploy/consul/shared/config/environments/production.rb`
 
