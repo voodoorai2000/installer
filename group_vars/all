@@ -31,10 +31,6 @@ ssh_public_key_path: "~/.ssh/id_rsa.pub"
 # Ruby
 ruby_version: 2.3.2
 
-#Ruby
-rvm1_user: "{{ deploy_user }}"
-rvm1_rubies: ["ruby-{{ ruby_version }}"]
-
 #Postgresql
 database_name: "consul_{{ env }}"
 database_user: "{{ deploy_user }}"
